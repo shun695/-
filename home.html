@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ホーム</title>
+</head>
+<body style="background-color: #1e1e1e; color: white; font-family: Arial, sans-serif; text-align: center; padding: 50px;">
+  <h1>今日という最後の時を楽しみましょう。</h1>
+  <p>作品はあなたを傷つけません</p>
+
+<!-- 作品・イベントページへのリンク -->
+<div style="margin-top: 30px;">
+  <button onclick="window.location.href='works.html'" style="padding:10px 20px; margin:10px;">エッセイ、独り言</button>
+  <button onclick="window.location.href='events.html'" style="padding:10px 20px; margin:10px;">イベント</button>
+<button onclick="window.location.href='sakuhin.html'" style="padding:10px 20px; margin:10px;">作品、お仕事依頼</button>
+</div>
+
+  <button id="logout-btn" style="padding:10px 20px; margin-top:20px;">ログアウト</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // Supabase初期化
+    const supabaseClient = supabase.createClient(
+      "https://szfuotwvnnmarnezhibc.supabase.co", // ← しゅんくんのProject URL
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZnVvdHd2bm5tYXJuZXpoaWJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MDc5NTYsImV4cCI6MjA3MTE4Mzk1Nn0.TeHlXGDz6mCap2g2RS1WHQTvrh4q18Wxz-K7zhpwTp4" // ← anon public key
+    );
+
+    // ログアウト処理
+    document.getElementById("logout-btn").addEventListener("click", async () => {
+      const { error } = await supabaseClient.auth.signOut();
+
+      if (error) {
+        alert("ログアウトに失敗しました: " + error.message);
+      } else {
+        alert("ログアウトしました！");
+        window.location.href = "login.html"; 
+      }
+    });
+ 
+  </script>
+</body>
+</html>
