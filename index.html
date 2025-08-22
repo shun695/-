@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>ε解放事務所 - ログイン</title>
+  <style>
+    /* 全体のスタイル */
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Arial", sans-serif;
+      background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); /* 宇宙っぽいグラデ */
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* カード風のボックス */
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      text-align: center;
+      width: 350px;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 1.6rem;
+      color: #f5f5f5;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 10px;
+      background: #e94560;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ff6b81;
+    }
+
+    #message {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #ffdf6c;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1> β ε解放事務所 β</h1>
+
+    <input type="email" id="email" placeholder="メールアドレス"><br>
+    <input type="password" id="password" placeholder="パスワード"><br>
+    <button id="signup-btn">新規登録</button>
+    <button id="login-btn">ログイン</button>
+
+    <p id="message"></p>
+  </div>
+
+  <!-- Supabaseライブラリ -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script>
+    // Supabaseの設定
+    const SUPABASE_URL = "https://szfuotwvnnmarnezhibc.supabase.co";
+    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN6ZnVvdHd2bm5tYXJuZXpoaWJjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU2MDc5NTYsImV4cCI6MjA3MTE4Mzk1Nn0.TeHlXGDz6mCap2g2RS1WHQTvrh4q18Wxz-K7zhpwTp4";
+
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    // 新規登録
+    document.getElementById("signup-btn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        document.getElementById("message").innerText = "❌ エラー: " + error.message;
+      } else {window.location.href = "home.html" ; 
+        document.getElementById("message").innerText = "✅ 登録成功！メールを確認してください。";
+      }
+    });
+
+    // ログイン
+    document.getElementById("login-btn").addEventListener("click", async () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const { data, error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        document.getElementById("message").innerText = "❌ エラー: " + error.message;
+      } else {window.location.href = "home.html" ; 
+        document.getElementById("message").innerText = "🌟 ログイン成功！ようこそ " + email;
+      }
+    });
+  </script>
+</body>
+</html>
